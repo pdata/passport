@@ -1,9 +1,9 @@
 <?php
 
-use Laravel\Passport\Passport;
-use Laravel\Passport\Bridge\Scope;
 use Laravel\Passport\Bridge\Client;
+use Laravel\Passport\Bridge\Scope;
 use Laravel\Passport\Bridge\ScopeRepository;
+use Laravel\Passport\Passport;
 
 class BridgeScopeRepositoryTest extends PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class BridgeScopeRepositoryTest extends PHPUnit_Framework_TestCase
             'scope-1' => 'description',
         ]);
 
-        $repository = new ScopeRepository;
+        $repository = new ScopeRepository();
 
         $scopes = $repository->finalizeScopes(
             [$scope1 = new Scope('scope-1'), new Scope('scope-2')], 'client_credentials', new Client('id', 'name', 'http://localhost'), 1
@@ -28,7 +28,7 @@ class BridgeScopeRepositoryTest extends PHPUnit_Framework_TestCase
             'scope-1' => 'description',
         ]);
 
-        $repository = new ScopeRepository;
+        $repository = new ScopeRepository();
 
         $scopes = $repository->finalizeScopes(
             [$scope1 = new Scope('*')], 'client_credentials', new Client('id', 'name', 'http://localhost'), 1

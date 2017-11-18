@@ -19,7 +19,7 @@ class CreateFreshApiTokenTest extends PHPUnit_Framework_TestCase
         $middleware = new CreateFreshApiToken($cookieFactory);
         $request = Mockery::mock(Request::class)->makePartial();
 
-        $response = new Response;
+        $response = new Response();
 
         $guard = 'guard';
         $user = Mockery::mock()
@@ -51,7 +51,7 @@ class CreateFreshApiTokenTest extends PHPUnit_Framework_TestCase
 
         $middleware = new CreateFreshApiToken($cookieFactory);
         $request = Request::create('/', 'POST');
-        $response = new Response;
+        $response = new Response();
 
         $result = $middleware->handle($request, function () use ($response) {
             return $response;
@@ -67,9 +67,10 @@ class CreateFreshApiTokenTest extends PHPUnit_Framework_TestCase
 
         $middleware = new CreateFreshApiToken($cookieFactory);
         $request = Request::create('/', 'GET');
-        $response = new Response;
+        $response = new Response();
 
-        $request->setUserResolver(function () {});
+        $request->setUserResolver(function () {
+        });
 
         $result = $middleware->handle($request, function () use ($response) {
             return $response;
@@ -86,7 +87,7 @@ class CreateFreshApiTokenTest extends PHPUnit_Framework_TestCase
         $middleware = new CreateFreshApiToken($cookieFactory);
         $request = Request::create('/', 'GET');
 
-        $response = (new Response)->withCookie(
+        $response = (new Response())->withCookie(
             new \Symfony\Component\HttpFoundation\Cookie(Passport::cookie())
         );
 

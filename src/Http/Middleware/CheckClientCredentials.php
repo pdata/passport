@@ -3,10 +3,10 @@
 namespace Laravel\Passport\Http\Middleware;
 
 use Closure;
-use League\OAuth2\Server\ResourceServer;
 use Illuminate\Auth\AuthenticationException;
 use Laravel\Passport\Exceptions\MissingScopeException;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\ResourceServer;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class CheckClientCredentials
@@ -21,7 +21,8 @@ class CheckClientCredentials
     /**
      * Create a new middleware instance.
      *
-     * @param  \League\OAuth2\Server\ResourceServer  $server
+     * @param \League\OAuth2\Server\ResourceServer $server
+     *
      * @return void
      */
     public function __construct(ResourceServer $server)
@@ -32,20 +33,22 @@ class CheckClientCredentials
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  mixed  ...$scopes
-     * @return mixed
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param mixed                    ...$scopes
+     *
      * @throws \Illuminate\Auth\AuthenticationException
+     *
+     * @return mixed
      */
     public function handle($request, Closure $next, ...$scopes)
     {
-        $psr = (new DiactorosFactory)->createRequest($request);
+        $psr = (new DiactorosFactory())->createRequest($request);
 
         try {
             $psr = $this->server->validateAuthenticatedRequest($psr);
         } catch (OAuthServerException $e) {
-            throw new AuthenticationException;
+            throw new AuthenticationException();
         }
 
         $this->validateScopes($psr, $scopes);
@@ -56,10 +59,12 @@ class CheckClientCredentials
     /**
      * Validate the scopes on the incoming request.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $psr
-     * @param  array  $scopes
-     * @return void
+     * @param \Psr\Http\Message\ResponseInterface $psr
+     * @param array                               $scopes
+     *
      * @throws \Laravel\Passport\Exceptions\MissingScopeException
+     *
+     * @return void
      */
     protected function validateScopes($psr, $scopes)
     {
@@ -68,7 +73,7 @@ class CheckClientCredentials
         }
 
         foreach ($scopes as $scope) {
-            if (! in_array($scope, $tokenScopes)) {
+            if (!in_array($scope, $tokenScopes)) {
                 throw new MissingScopeException($scope);
             }
         }

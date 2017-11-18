@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Container\Container;
-use League\OAuth2\Server\AuthorizationServer;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use League\OAuth2\Server\AuthorizationServer;
 
 class AuthorizationControllerTest extends PHPUnit_Framework_TestCase
 {

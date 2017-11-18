@@ -15,9 +15,9 @@ class ApiTokenCookieFactoryTest extends PHPUnit_Framework_TestCase
         $config = Mockery::mock('Illuminate\Contracts\Config\Repository');
         $config->shouldReceive('get')->with('session')->andReturn([
             'lifetime' => 120,
-            'path' => '/',
-            'domain' => null,
-            'secure' => true,
+            'path'     => '/',
+            'domain'   => null,
+            'secure'   => true,
         ]);
         $encrypter = new Encrypter(str_repeat('a', 16));
         $factory = new ApiTokenCookieFactory($config, $encrypter);

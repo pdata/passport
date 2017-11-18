@@ -2,8 +2,8 @@
 
 namespace Laravel\Passport;
 
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
 class PersonalAccessTokenResult implements Arrayable, Jsonable
 {
@@ -24,8 +24,9 @@ class PersonalAccessTokenResult implements Arrayable, Jsonable
     /**
      * Create a new result instance.
      *
-     * @param  string  $accessToken
-     * @param  \Laravel\Passport\Token  $token
+     * @param string                  $accessToken
+     * @param \Laravel\Passport\Token $token
+     *
      * @return void
      */
     public function __construct($accessToken, $token)
@@ -43,14 +44,15 @@ class PersonalAccessTokenResult implements Arrayable, Jsonable
     {
         return [
             'accessToken' => $this->accessToken,
-            'token' => $this->token,
+            'token'       => $this->token,
         ];
     }
 
     /**
      * Convert the object to its JSON representation.
      *
-     * @param  int  $options
+     * @param int $options
+     *
      * @return string
      */
     public function toJson($options = 0)

@@ -4,20 +4,20 @@ namespace Laravel\Passport\Guards;
 
 use Exception;
 use Firebase\JWT\JWT;
-use Illuminate\Http\Request;
-use Laravel\Passport\Passport;
 use Illuminate\Container\Container;
-use Laravel\Passport\TransientToken;
-use Laravel\Passport\TokenRepository;
-use Laravel\Passport\ClientRepository;
-use League\OAuth2\Server\ResourceServer;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
+use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Http\Request;
+use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Events\Authenticated;
+use Laravel\Passport\Passport;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\TransientToken;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\ResourceServer;
+use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class TokenGuard
 {
@@ -66,12 +66,13 @@ class TokenGuard
     /**
      * Create a new token guard instance.
      *
-     * @param  \League\OAuth2\Server\ResourceServer  $server
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
-     * @param  \Laravel\Passport\TokenRepository  $tokens
-     * @param  \Laravel\Passport\ClientRepository  $clients
-     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \League\OAuth2\Server\ResourceServer       $server
+     * @param \Illuminate\Contracts\Auth\UserProvider    $provider
+     * @param \Laravel\Passport\TokenRepository          $tokens
+     * @param \Laravel\Passport\ClientRepository         $clients
+     * @param \Illuminate\Contracts\Encryption\Encrypter $encrypter
+     * @param \Illuminate\Contracts\Events\Dispatcher    $events
+     *
      * @return void
      */
     public function __construct(ResourceServer $server,
@@ -92,8 +93,9 @@ class TokenGuard
     /**
      * Get the user for the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Request  $request
+     * @param \Illuminate\Http\Request $request
+     * @param Request                  $request
+     *
      * @return mixed
      */
     public function user(Request $request)
@@ -108,7 +110,8 @@ class TokenGuard
     /**
      * Authenticate the incoming request via the Bearer token.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return mixed
      */
     protected function authenticateViaBearerToken($request)
@@ -116,7 +119,7 @@ class TokenGuard
         // First, we will convert the Symfony request to a PSR-7 implementation which will
         // be compatible with the base OAuth2 library. The Symfony bridge can perform a
         // conversion for us to a Zend Diactoros implementation of the PSR-7 request.
-        $psr = (new DiactorosFactory)->createRequest($request);
+        $psr = (new DiactorosFactory())->createRequest($request);
 
         try {
             $psr = $this->server->validateAuthenticatedRequest($psr);
@@ -128,7 +131,7 @@ class TokenGuard
                 $psr->getAttribute('oauth_user_id')
             );
 
-            if (! $user) {
+            if (!$user) {
                 return;
             }
 
@@ -148,12 +151,13 @@ class TokenGuard
                 return;
             }
 
-            if($token) {
+            if ($token) {
                 $this->events->dispatch(new Authenticated($token->id, $user, $clientId));
+
                 return $user->withAccessToken($token);
             }
 
-            return null;
+            return;
         } catch (OAuthServerException $e) {
             return Container::getInstance()->make(
                 ExceptionHandler::class
@@ -164,7 +168,8 @@ class TokenGuard
     /**
      * Authenticate the incoming request via the token cookie.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return mixed
      */
     protected function authenticateViaCookie($request)
@@ -181,7 +186,7 @@ class TokenGuard
         // We will compare the CSRF token in the decoded API token against the CSRF header
         // sent with the request. If the two don't match then this request is sent from
         // a valid source and we won't authenticate the request for further handling.
-        if (! $this->validCsrf($token, $request) ||
+        if (!$this->validCsrf($token, $request) ||
             time() >= $token['expiry']) {
             return;
         }
@@ -190,14 +195,15 @@ class TokenGuard
         // the user model. The transient token assumes it has all scopes since the user
         // is physically logged into the application via the application's interface.
         if ($user = $this->provider->retrieveById($token['sub'])) {
-            return $user->withAccessToken(new TransientToken);
+            return $user->withAccessToken(new TransientToken());
         }
     }
 
     /**
      * Decode and decrypt the JWT token cookie.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     protected function decodeJwtTokenCookie($request)
@@ -211,8 +217,9 @@ class TokenGuard
     /**
      * Determine if the CSRF / header are valid and match.
      *
-     * @param  array  $token
-     * @param  \Illuminate\Http\Request  $request
+     * @param array                    $token
+     * @param \Illuminate\Http\Request $request
+     *
      * @return bool
      */
     protected function validCsrf($token, $request)

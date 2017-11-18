@@ -28,9 +28,10 @@ class Authenticated
     /**
      * Create a new event instance.
      *
-     * @param  string  $tokenId
-     * @param  string  $user
-     * @param  string  $clientId
+     * @param string $tokenId
+     * @param string $user
+     * @param string $clientId
+     *
      * @return void
      */
     public function __construct($tokenId, $user, $clientId)

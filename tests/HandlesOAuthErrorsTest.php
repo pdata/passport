@@ -13,8 +13,8 @@ class HandlesOAuthErrorsTest extends PHPUnit_Framework_TestCase
 
     public function testShouldReturnCallbackResultIfNoErrorIsThrown()
     {
-        $controller = new HandlesOAuthErrorsStubController;
-        $response = new Response;
+        $controller = new HandlesOAuthErrorsStubController();
+        $response = new Response();
 
         $result = $controller->test(function () use ($response) {
             return $response;
@@ -27,7 +27,7 @@ class HandlesOAuthErrorsTest extends PHPUnit_Framework_TestCase
     {
         Container::getInstance()->instance(ExceptionHandler::class, $handler = Mockery::mock());
 
-        $controller = new HandlesOAuthErrorsStubController;
+        $controller = new HandlesOAuthErrorsStubController();
         $exception = new \League\OAuth2\Server\Exception\OAuthServerException('Error', 1, 'fatal');
 
         $handler->shouldReceive('report')->once()->with($exception);
@@ -44,7 +44,7 @@ class HandlesOAuthErrorsTest extends PHPUnit_Framework_TestCase
     {
         Container::getInstance()->instance(ExceptionHandler::class, $handler = Mockery::mock());
 
-        $controller = new HandlesOAuthErrorsStubController;
+        $controller = new HandlesOAuthErrorsStubController();
         $exception = new RuntimeException('Exception occurred', 1);
 
         $handler->shouldReceive('report')->once()->with($exception);
@@ -61,7 +61,7 @@ class HandlesOAuthErrorsTest extends PHPUnit_Framework_TestCase
     {
         Container::getInstance()->instance(ExceptionHandler::class, $handler = Mockery::mock());
 
-        $controller = new HandlesOAuthErrorsStubController;
+        $controller = new HandlesOAuthErrorsStubController();
         $exception = new Error('Fatal Error', 1);
 
         $handler->shouldReceive('report')

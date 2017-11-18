@@ -16,7 +16,7 @@ class PersonalAccessTokenFactoryTest extends PHPUnit_Framework_TestCase
 
         $factory = new Laravel\Passport\PersonalAccessTokenFactory($server, $clients, $tokens, $jwt);
 
-        $clients->shouldReceive('personalAccessClient')->andReturn($client = new PersonalAccessTokenFactoryTestClientStub);
+        $clients->shouldReceive('personalAccessClient')->andReturn($client = new PersonalAccessTokenFactoryTestClientStub());
         $server->shouldReceive('respondToAccessTokenRequest')->andReturn($response = Mockery::mock());
         $response->shouldReceive('getBody->__toString')->andReturn(json_encode([
             'access_token' => 'foo',
@@ -24,7 +24,7 @@ class PersonalAccessTokenFactoryTest extends PHPUnit_Framework_TestCase
 
         $jwt->shouldReceive('parse')->with('foo')->andReturn($parsedToken = Mockery::mock());
         $parsedToken->shouldReceive('getClaim')->with('jti')->andReturn('token');
-        $tokens->shouldReceive('find')->with('token')->andReturn($foundToken = new PersonalAccessTokenFactoryTestModelStub);
+        $tokens->shouldReceive('find')->with('token')->andReturn($foundToken = new PersonalAccessTokenFactoryTestModelStub());
         $tokens->shouldReceive('save')->with($foundToken);
 
         $result = $factory->make(1, 'token', ['scopes']);

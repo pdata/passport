@@ -15,8 +15,8 @@ class PersonalAccessTokenControllerTest extends PHPUnit_Framework_TestCase
     {
         $request = Request::create('/', 'GET');
 
-        $token1 = new Laravel\Passport\Token;
-        $token2 = new Laravel\Passport\Token;
+        $token1 = new Laravel\Passport\Token();
+        $token2 = new Laravel\Passport\Token();
 
         $userTokens = Mockery::mock();
         $token1->client = (object) ['personal_access_client' => true];
@@ -45,7 +45,7 @@ class PersonalAccessTokenControllerTest extends PHPUnit_Framework_TestCase
     public function test_tokens_can_be_updated()
     {
         Passport::tokensCan([
-            'user' => 'first',
+            'user'       => 'first',
             'user-admin' => 'second',
         ]);
 
@@ -60,10 +60,10 @@ class PersonalAccessTokenControllerTest extends PHPUnit_Framework_TestCase
 
         $validator = Mockery::mock('Illuminate\Contracts\Validation\Factory');
         $validator->shouldReceive('make')->once()->with([
-            'name' => 'token name',
+            'name'   => 'token name',
             'scopes' => ['user', 'user-admin'],
         ], [
-            'name' => 'required|max:255',
+            'name'   => 'required|max:255',
             'scopes' => 'array|in:'.implode(',', Passport::scopeIds()),
         ])->andReturn($validator);
         $validator->shouldReceive('validate')->once();

@@ -4,7 +4,7 @@ class ScopeControllerTest extends PHPUnit_Framework_TestCase
 {
     public function testShouldGetScopes()
     {
-        $controller = new \Laravel\Passport\Http\Controllers\ScopeController;
+        $controller = new \Laravel\Passport\Http\Controllers\ScopeController();
 
         \Laravel\Passport\Passport::tokensCan($scopes = [
             'place-orders' => 'Place orders',

@@ -11,7 +11,7 @@ class CheckForAnyScopesTest extends PHPUnit_Framework_TestCase
 
     public function test_request_is_passed_along_if_scopes_are_present_on_token()
     {
-        $middleware = new CheckScopes;
+        $middleware = new CheckScopes();
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('token')->andReturn($token = Mockery::mock());
@@ -30,7 +30,7 @@ class CheckForAnyScopesTest extends PHPUnit_Framework_TestCase
      */
     public function test_exception_is_thrown_if_token_doesnt_have_scope()
     {
-        $middleware = new CheckScopes;
+        $middleware = new CheckScopes();
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('token')->andReturn($token = Mockery::mock());
@@ -47,7 +47,7 @@ class CheckForAnyScopesTest extends PHPUnit_Framework_TestCase
      */
     public function test_exception_is_thrown_if_no_authenticated_user()
     {
-        $middleware = new CheckScopes;
+        $middleware = new CheckScopes();
         $request = Mockery::mock();
         $request->shouldReceive('user')->once()->andReturn(null);
 
@@ -61,7 +61,7 @@ class CheckForAnyScopesTest extends PHPUnit_Framework_TestCase
      */
     public function test_exception_is_thrown_if_no_token()
     {
-        $middleware = new CheckScopes;
+        $middleware = new CheckScopes();
         $request = Mockery::mock();
         $request->shouldReceive('user')->andReturn($user = Mockery::mock());
         $user->shouldReceive('token')->andReturn(null);
