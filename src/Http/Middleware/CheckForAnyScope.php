@@ -20,7 +20,7 @@ class CheckForAnyScope
      */
     public function handle($request, $next, ...$scopes)
     {
-        if (!$request->user() || !$request->user()->token()) {
+        if (! $request->user() || ! $request->user()->token()) {
             throw new AuthenticationException();
         }
 

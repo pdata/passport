@@ -2,10 +2,10 @@
 
 namespace Laravel\Passport\Http\Controllers;
 
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\ClientRepository;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 class ClientController
 {
@@ -83,7 +83,7 @@ class ClientController
     {
         $client = $this->clients->findForUser($clientId, $request->user()->getKey());
 
-        if (!$client) {
+        if (! $client) {
             return new Response('', 404);
         }
 
@@ -109,7 +109,7 @@ class ClientController
     {
         $client = $this->clients->findForUser($clientId, $request->user()->getKey());
 
-        if (!$client) {
+        if (! $client) {
             return new Response('', 404);
         }
 
