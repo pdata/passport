@@ -20,7 +20,8 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Illuminate\Database\Connection  $database
+     * @param \Illuminate\Database\Connection $database
+     *
      * @return void
      */
     public function __construct(Connection $database)
@@ -33,7 +34,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function getNewAuthCode()
     {
-        return new AuthCode;
+        return new AuthCode();
     }
 
     /**
@@ -42,11 +43,11 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
         $this->database->table('oauth_auth_codes')->insert([
-            'id' => $authCodeEntity->getIdentifier(),
-            'user_id' => $authCodeEntity->getUserIdentifier(),
-            'client_id' => $authCodeEntity->getClient()->getIdentifier(),
-            'scopes' => $this->formatScopesForStorage($authCodeEntity->getScopes()),
-            'revoked' => false,
+            'id'         => $authCodeEntity->getIdentifier(),
+            'user_id'    => $authCodeEntity->getUserIdentifier(),
+            'client_id'  => $authCodeEntity->getClient()->getIdentifier(),
+            'scopes'     => $this->formatScopesForStorage($authCodeEntity->getScopes()),
+            'revoked'    => false,
             'expires_at' => $authCodeEntity->getExpiryDateTime(),
         ]);
     }

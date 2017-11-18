@@ -1,10 +1,10 @@
 <?php
 
-use Mockery\Mock;
 use Illuminate\Http\Request;
 use Laravel\Passport\Client;
-use Laravel\Passport\TokenRepository;
 use Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController;
+use Laravel\Passport\TokenRepository;
+use Mockery\Mock;
 
 class AuthorizedAccessTokenControllerTest extends PHPUnit_Framework_TestCase
 {
@@ -35,13 +35,13 @@ class AuthorizedAccessTokenControllerTest extends PHPUnit_Framework_TestCase
     {
         $request = Request::create('/', 'GET');
 
-        $token1 = new Laravel\Passport\Token;
-        $token2 = new Laravel\Passport\Token;
+        $token1 = new Laravel\Passport\Token();
+        $token2 = new Laravel\Passport\Token();
 
         $userTokens = Mockery::mock();
-        $client1 = new Client;
+        $client1 = new Client();
         $client1->personal_access_client = true;
-        $client2 = new Client;
+        $client2 = new Client();
         $client2->personal_access_client = false;
         $token1->client = $client1;
         $token2->client = $client2;

@@ -46,7 +46,8 @@ trait HasApiTokens
     /**
      * Determine if the current API token has a given scope.
      *
-     * @param  string  $scope
+     * @param string $scope
+     *
      * @return bool
      */
     public function tokenCan($scope)
@@ -57,8 +58,9 @@ trait HasApiTokens
     /**
      * Create a new personal access token for the user.
      *
-     * @param  string  $name
-     * @param  array  $scopes
+     * @param string $name
+     * @param array  $scopes
+     *
      * @return \Laravel\Passport\PersonalAccessTokenResult
      */
     public function createToken($name, array $scopes = [])
@@ -71,7 +73,8 @@ trait HasApiTokens
     /**
      * Set the current access token for the user.
      *
-     * @param  \Laravel\Passport\Token  $accessToken
+     * @param \Laravel\Passport\Token $accessToken
+     *
      * @return $this
      */
     public function withAccessToken($accessToken)

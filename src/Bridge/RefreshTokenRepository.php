@@ -2,8 +2,8 @@
 
 namespace Laravel\Passport\Bridge;
 
-use Illuminate\Database\Connection;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Connection;
 use Laravel\Passport\Events\RefreshTokenCreated;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
@@ -34,9 +34,10 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Laravel\Passport\Bridge\AccessTokenRepository  $tokens
-     * @param  \Illuminate\Database\Connection  $database
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \Laravel\Passport\Bridge\AccessTokenRepository $tokens
+     * @param \Illuminate\Database\Connection                $database
+     * @param \Illuminate\Contracts\Events\Dispatcher        $events
+     *
      * @return void
      */
     public function __construct(AccessTokenRepository $tokens,
@@ -53,7 +54,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
      */
     public function getNewRefreshToken()
     {
-        return new RefreshToken;
+        return new RefreshToken();
     }
 
     /**
@@ -62,10 +63,10 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity)
     {
         $this->database->table('oauth_refresh_tokens')->insert([
-            'id' => $id = $refreshTokenEntity->getIdentifier(),
+            'id'              => $id = $refreshTokenEntity->getIdentifier(),
             'access_token_id' => $accessTokenId = $refreshTokenEntity->getAccessToken()->getIdentifier(),
-            'revoked' => false,
-            'expires_at' => $refreshTokenEntity->getExpiryDateTime(),
+            'revoked'         => false,
+            'expires_at'      => $refreshTokenEntity->getExpiryDateTime(),
         ]);
 
         $this->events->fire(new RefreshTokenCreated($id, $accessTokenId));

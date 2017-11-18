@@ -2,8 +2,8 @@
 
 namespace Laravel\Passport;
 
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
 class Scope implements Arrayable, Jsonable
 {
@@ -24,8 +24,9 @@ class Scope implements Arrayable, Jsonable
     /**
      * Create a new scope instance.
      *
-     * @param  string  $id
-     * @param  string  $description
+     * @param string $id
+     * @param string $description
+     *
      * @return void
      */
     public function __construct($id, $description)
@@ -42,7 +43,7 @@ class Scope implements Arrayable, Jsonable
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            'id'          => $this->id,
             'description' => $this->description,
         ];
     }
@@ -50,7 +51,8 @@ class Scope implements Arrayable, Jsonable
     /**
      * Convert the object to its JSON representation.
      *
-     * @param  int  $options
+     * @param int $options
+     *
      * @return string
      */
     public function toJson($options = 0)

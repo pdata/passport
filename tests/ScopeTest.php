@@ -6,7 +6,7 @@ class ScopeTest extends PHPUnit_Framework_TestCase
     {
         $scope = new Laravel\Passport\Scope('user', 'get user information');
         $this->assertEquals([
-            'id' => 'user',
+            'id'          => 'user',
             'description' => 'get user information',
         ], $scope->toArray());
     }
@@ -15,7 +15,7 @@ class ScopeTest extends PHPUnit_Framework_TestCase
     {
         $scope = new Laravel\Passport\Scope('user', 'get user information');
         $this->assertEquals(json_encode([
-            'id' => 'user',
+            'id'          => 'user',
             'description' => 'get user information',
         ]), $scope->toJson());
     }

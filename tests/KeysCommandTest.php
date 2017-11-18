@@ -48,7 +48,7 @@ class KeysCommandTest extends PHPUnit_Framework_TestCase
             ->with('Encryption keys generated successfully.')
             ->getMock();
 
-        $command->handle(new phpseclib\Crypt\RSA);
+        $command->handle(new phpseclib\Crypt\RSA());
 
         $this->assertFileExists(custom_path('oauth-private.key'));
         $this->assertFileExists(custom_path('oauth-public.key'));
@@ -68,6 +68,6 @@ class KeysCommandTest extends PHPUnit_Framework_TestCase
         $command->shouldReceive('error')
             ->with('Encryption keys already exist. Use the --force option to overwrite them.');
 
-        $command->handle(new phpseclib\Crypt\RSA);
+        $command->handle(new phpseclib\Crypt\RSA());
     }
 }

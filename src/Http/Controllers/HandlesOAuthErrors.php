@@ -3,14 +3,14 @@
 namespace Laravel\Passport\Http\Controllers;
 
 use Exception;
-use Throwable;
-use Illuminate\Http\Response;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository;
-use Zend\Diactoros\Response as Psr7Response;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Response;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Throwable;
+use Zend\Diactoros\Response as Psr7Response;
 
 trait HandlesOAuthErrors
 {
@@ -19,7 +19,8 @@ trait HandlesOAuthErrors
     /**
      * Perform the given callback with exception handling.
      *
-     * @param  \Closure  $callback
+     * @param \Closure $callback
+     *
      * @return \Illuminate\Http\Response
      */
     protected function withErrorHandling($callback)
@@ -30,7 +31,7 @@ trait HandlesOAuthErrors
             $this->exceptionHandler()->report($e);
 
             return $this->convertResponse(
-                $e->generateHttpResponse(new Psr7Response)
+                $e->generateHttpResponse(new Psr7Response())
             );
         } catch (Exception $e) {
             $this->exceptionHandler()->report($e);

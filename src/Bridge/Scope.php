@@ -2,8 +2,8 @@
 
 namespace Laravel\Passport\Bridge;
 
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\Traits\EntityTrait;
 
 class Scope implements ScopeEntityInterface
 {
@@ -12,7 +12,8 @@ class Scope implements ScopeEntityInterface
     /**
      * Create a new scope instance.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return void
      */
     public function __construct($name)

@@ -18,7 +18,7 @@ class ApproveAuthorizationControllerTest extends PHPUnit_Framework_TestCase
         $request = Mockery::mock('Illuminate\Http\Request');
         $request->shouldReceive('session')->andReturn($session = Mockery::mock());
         $session->shouldReceive('get')->once()->with('authRequest')->andReturn($authRequest = Mockery::mock('League\OAuth2\Server\RequestTypes\AuthorizationRequest'));
-        $request->shouldReceive('user')->andReturn(new ApproveAuthorizationControllerFakeUser);
+        $request->shouldReceive('user')->andReturn(new ApproveAuthorizationControllerFakeUser());
         $authRequest->shouldReceive('getClient->getIdentifier')->andReturn(1);
         $authRequest->shouldReceive('getUser->getIdentifier')->andReturn(2);
         $authRequest->shouldReceive('setUser')->once();
@@ -36,6 +36,7 @@ class ApproveAuthorizationControllerTest extends PHPUnit_Framework_TestCase
 class ApproveAuthorizationControllerFakeUser
 {
     public $id = 1;
+
     public function getKey()
     {
         return $this->id;

@@ -11,14 +11,16 @@ trait RetrievesAuthRequestFromSession
     /**
      * Get the authorization request from the session.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \League\OAuth2\Server\RequestTypes\AuthorizationRequest
+     * @param \Illuminate\Http\Request $request
+     *
      * @throws \Exception
+     *
+     * @return \League\OAuth2\Server\RequestTypes\AuthorizationRequest
      */
     protected function getAuthRequestFromSession(Request $request)
     {
         return tap($request->session()->get('authRequest'), function ($authRequest) use ($request) {
-            if (! $authRequest) {
+            if (!$authRequest) {
                 throw new Exception('Authorization request was not present in the session.');
             }
 

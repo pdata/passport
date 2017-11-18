@@ -16,7 +16,8 @@ class RouteRegistrar
     /**
      * Create a new route registrar instance.
      *
-     * @param  \Illuminate\Contracts\Routing\Registrar  $router
+     * @param \Illuminate\Contracts\Routing\Registrar $router
+     *
      * @return void
      */
     public function __construct(Router $router)
@@ -68,7 +69,7 @@ class RouteRegistrar
     public function forAccessTokens()
     {
         $this->router->post('/token', [
-            'uses' => 'AccessTokenController@issueToken',
+            'uses'       => 'AccessTokenController@issueToken',
             'middleware' => 'throttle',
         ]);
 
@@ -92,7 +93,7 @@ class RouteRegistrar
     {
         $this->router->post('/token/refresh', [
             'middleware' => ['web', 'auth'],
-            'uses' => 'TransientTokenController@refresh',
+            'uses'       => 'TransientTokenController@refresh',
         ]);
     }
 

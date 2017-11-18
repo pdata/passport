@@ -2,8 +2,8 @@
 
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
-use Illuminate\Http\Request;
 use Illuminate\Container\Container;
+use Illuminate\Http\Request;
 use Laravel\Passport\Guards\TokenGuard;
 
 class TokenGuardTest extends PHPUnit_Framework_TestCase
@@ -30,7 +30,7 @@ class TokenGuardTest extends PHPUnit_Framework_TestCase
         $psr->shouldReceive('getAttribute')->with('oauth_user_id')->andReturn(1);
         $psr->shouldReceive('getAttribute')->with('oauth_client_id')->andReturn(1);
         $psr->shouldReceive('getAttribute')->with('oauth_access_token_id')->andReturn('token');
-        $userProvider->shouldReceive('retrieveById')->with(1)->andReturn(new TokenGuardTestUser);
+        $userProvider->shouldReceive('retrieveById')->with(1)->andReturn(new TokenGuardTestUser());
         $tokens->shouldReceive('find')->once()->with('token')->andReturn($token = Mockery::mock());
         $clients->shouldReceive('revoked')->with(1)->andReturn(false);
 
@@ -42,7 +42,7 @@ class TokenGuardTest extends PHPUnit_Framework_TestCase
 
     public function test_no_user_is_returned_when_oauth_throws_exception()
     {
-        $container = new Container;
+        $container = new Container();
         Container::setInstance($container);
         $container->instance('Illuminate\Contracts\Debug\ExceptionHandler', $handler = Mockery::mock());
         $handler->shouldReceive('report')->once()->with(Mockery::type('League\OAuth2\Server\Exception\OAuthServerException'));
@@ -99,12 +99,12 @@ class TokenGuardTest extends PHPUnit_Framework_TestCase
         $request->headers->set('X-CSRF-TOKEN', 'token');
         $request->cookies->set('laravel_token',
             $encrypter->encrypt(JWT::encode([
-                'sub' => 1, 'csrf' => 'token',
+                'sub'    => 1, 'csrf' => 'token',
                 'expiry' => Carbon::now()->addMinutes(10)->getTimestamp(),
             ], str_repeat('a', 16)))
         );
 
-        $userProvider->shouldReceive('retrieveById')->with(1)->andReturn($expectedUser = new TokenGuardTestUser);
+        $userProvider->shouldReceive('retrieveById')->with(1)->andReturn($expectedUser = new TokenGuardTestUser());
 
         $user = $guard->user($request);
 
@@ -125,7 +125,7 @@ class TokenGuardTest extends PHPUnit_Framework_TestCase
         $request->headers->set('X-CSRF-TOKEN', 'wrong_token');
         $request->cookies->set('laravel_token',
             $encrypter->encrypt(JWT::encode([
-                'sub' => 1, 'csrf' => 'token',
+                'sub'    => 1, 'csrf' => 'token',
                 'expiry' => Carbon::now()->addMinutes(10)->getTimestamp(),
             ], str_repeat('a', 16)))
         );
@@ -149,7 +149,7 @@ class TokenGuardTest extends PHPUnit_Framework_TestCase
         $request->headers->set('X-CSRF-TOKEN', 'token');
         $request->cookies->set('laravel_token',
             $encrypter->encrypt(JWT::encode([
-                'sub' => 1, 'csrf' => 'token',
+                'sub'    => 1, 'csrf' => 'token',
                 'expiry' => Carbon::now()->subMinutes(10)->getTimestamp(),
             ], str_repeat('a', 16)))
         );

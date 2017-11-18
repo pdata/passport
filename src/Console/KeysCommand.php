@@ -2,9 +2,9 @@
 
 namespace Laravel\Passport\Console;
 
-use phpseclib\Crypt\RSA;
-use Laravel\Passport\Passport;
 use Illuminate\Console\Command;
+use Laravel\Passport\Passport;
+use phpseclib\Crypt\RSA;
 
 class KeysCommand extends Command
 {
@@ -25,7 +25,8 @@ class KeysCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param  \phpseclib\Crypt\RSA  $rsa
+     * @param \phpseclib\Crypt\RSA $rsa
+     *
      * @return mixed
      */
     public function handle(RSA $rsa)
@@ -37,7 +38,7 @@ class KeysCommand extends Command
             Passport::keyPath('oauth-private.key'),
         ];
 
-        if ((file_exists($publicKey) || file_exists($privateKey)) && ! $this->option('force')) {
+        if ((file_exists($publicKey) || file_exists($privateKey)) && !$this->option('force')) {
             return $this->error('Encryption keys already exist. Use the --force option to overwrite them.');
         }
 

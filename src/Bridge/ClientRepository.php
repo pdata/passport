@@ -17,7 +17,8 @@ class ClientRepository implements ClientRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Laravel\Passport\ClientRepository  $clients
+     * @param \Laravel\Passport\ClientRepository $clients
+     *
      * @return void
      */
     public function __construct(ClientModelRepository $clients)
@@ -36,7 +37,7 @@ class ClientRepository implements ClientRepositoryInterface
         // from the main interface. We'll only let certain clients generate the tokens.
         $record = $this->clients->findActive($clientIdentifier);
 
-        if (! $record || ! $this->handlesGrant($record, $grantType)) {
+        if (!$record || !$this->handlesGrant($record, $grantType)) {
             return;
         }
 
@@ -48,7 +49,7 @@ class ClientRepository implements ClientRepositoryInterface
         );
 
         if ($mustValidateSecret &&
-            ! hash_equals($record->secret, (string) $clientSecret)) {
+            !hash_equals($record->secret, (string) $clientSecret)) {
             return;
         }
 
@@ -58,15 +59,16 @@ class ClientRepository implements ClientRepositoryInterface
     /**
      * Determine if the given client can handle the given grant type.
      *
-     * @param  \Laravel\Passport\Client  $record
-     * @param  string  $grantType
+     * @param \Laravel\Passport\Client $record
+     * @param string                   $grantType
+     *
      * @return bool
      */
     protected function handlesGrant($record, $grantType)
     {
         switch ($grantType) {
             case 'authorization_code':
-                return ! $record->firstParty();
+                return !$record->firstParty();
             case 'personal_access':
                 return $record->personal_access_client;
             case 'password':
