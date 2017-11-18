@@ -97,7 +97,7 @@ class Token extends Model
      */
     public function cant($scope)
     {
-        return !$this->can($scope);
+        return ! $this->can($scope);
     }
 
     /**

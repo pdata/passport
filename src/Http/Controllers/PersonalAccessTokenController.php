@@ -2,11 +2,11 @@
 
 namespace Laravel\Passport\Http\Controllers;
 
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Laravel\Passport\TokenRepository;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 class PersonalAccessTokenController
 {
@@ -50,7 +50,7 @@ class PersonalAccessTokenController
         $tokens = $this->tokenRepository->forUser($request->user()->getKey());
 
         return $tokens->load('client')->filter(function ($token) {
-            return $token->client->personal_access_client && !$token->revoked;
+            return $token->client->personal_access_client && ! $token->revoked;
         })->values();
     }
 

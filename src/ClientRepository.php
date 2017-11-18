@@ -27,7 +27,7 @@ class ClientRepository
     {
         $client = $this->find($id);
 
-        return $client && !$client->revoked ? $client : null;
+        return $client && ! $client->revoked ? $client : null;
     }
 
     /**

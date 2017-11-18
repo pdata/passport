@@ -37,7 +37,7 @@ class ClientRepository implements ClientRepositoryInterface
         // from the main interface. We'll only let certain clients generate the tokens.
         $record = $this->clients->findActive($clientIdentifier);
 
-        if (!$record || !$this->handlesGrant($record, $grantType)) {
+        if (! $record || ! $this->handlesGrant($record, $grantType)) {
             return;
         }
 
@@ -49,7 +49,7 @@ class ClientRepository implements ClientRepositoryInterface
         );
 
         if ($mustValidateSecret &&
-            !hash_equals($record->secret, (string) $clientSecret)) {
+            ! hash_equals($record->secret, (string) $clientSecret)) {
             return;
         }
 
@@ -68,7 +68,7 @@ class ClientRepository implements ClientRepositoryInterface
     {
         switch ($grantType) {
             case 'authorization_code':
-                return !$record->firstParty();
+                return ! $record->firstParty();
             case 'personal_access':
                 return $record->personal_access_client;
             case 'password':

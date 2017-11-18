@@ -4,19 +4,19 @@ namespace Laravel\Passport\Guards;
 
 use Exception;
 use Firebase\JWT\JWT;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Contracts\Encryption\Encrypter;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Laravel\Passport\ClientRepository;
-use Laravel\Passport\Events\Authenticated;
 use Laravel\Passport\Passport;
-use Laravel\Passport\TokenRepository;
+use Illuminate\Container\Container;
 use Laravel\Passport\TransientToken;
-use League\OAuth2\Server\Exception\OAuthServerException;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\ClientRepository;
 use League\OAuth2\Server\ResourceServer;
+use Laravel\Passport\Events\Authenticated;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 
 class TokenGuard
@@ -131,7 +131,7 @@ class TokenGuard
                 $psr->getAttribute('oauth_user_id')
             );
 
-            if (!$user) {
+            if (! $user) {
                 return;
             }
 
@@ -186,7 +186,7 @@ class TokenGuard
         // We will compare the CSRF token in the decoded API token against the CSRF header
         // sent with the request. If the two don't match then this request is sent from
         // a valid source and we won't authenticate the request for further handling.
-        if (!$this->validCsrf($token, $request) ||
+        if (! $this->validCsrf($token, $request) ||
             time() >= $token['expiry']) {
             return;
         }
